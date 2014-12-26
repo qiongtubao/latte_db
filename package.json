@@ -1,6 +1,6 @@
 {
 	"name":"latte_db",
-    "version":"0.0.4",
+    "version":"0.0.5",
 	"description": "latte_db",
 	"keywords": ["latte","latte_db"],
 	"author": "qiongtubao",
@@ -12,7 +12,8 @@
 	"dependencies": {
 		"redis":"*",
 		"mongoskin":"*",
-		"latte_lib":"*"
+		"latte_lib":"*",
+		"mongodb":"*"
 	}
 	
 }
