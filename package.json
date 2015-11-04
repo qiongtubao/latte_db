@@ -10,7 +10,7 @@
 		"url": "https://github.com/qiongtubao/latte_db.git"
 	},
 	"dependencies": {
-		"redis":"*",
+		"redis":"0.12.1",
 		"latte_lib":"*",
 		"mongodb":"*"
 	}
