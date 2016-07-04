@@ -1,6 +1,6 @@
 {
 	"name":"latte_db",
-    "version":"0.0.12",
+    "version":"0.0.13",
 	"description": "latte_db",
 	"keywords": ["latte","latte_db"],
 	"author": "qiongtubao",
@@ -10,7 +10,7 @@
 		"url": "https://github.com/qiongtubao/latte_db.git"
 	},
 	"dependencies": {
-		"redis":"0.12.1",
+		"redis":"*",
 		"latte_lib":"*",
 		"mongodb":"*"
 	}
