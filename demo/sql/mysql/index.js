@@ -4,7 +4,7 @@ Sql.bindDb("mysql", {
 	"host": "192.168.1.25",
 	"user": "root",
 	"password": "root",
-	"database": "zhegedb",
+	"database": "wordpress",
 	"type": "mysql",
 	"maxPoolNum": 1,
     "idleTimeoutMillis": 30000,
@@ -12,7 +12,7 @@ Sql.bindDb("mysql", {
 });
 Sql.mysql.command(function(err, client, dbcb) {
 	console.log(err);
-	client.query("2015/07/31-8488action", "*", function(err, data) {
+	client.query("wp_wozllausers", "*", function(err, data) {
 		console.log(err, data);
 	});
 });
