@@ -8,8 +8,6 @@ Redis.bindDb("session", {
     "idleTimeoutMillis": 30000,
     "minPoolNum": 10
 });
-Redis.session.command(function(err, client, dbcb) {
-	client.keys("*", function(err, data) {
-		console.log(err, data);
-	});
+Redis.session.doCommand("fuck", ["*"], function(err, data) {
+	console.log(err, data);
 });

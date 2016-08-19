@@ -25,8 +25,6 @@ Mongodb.bindDb("product", {
     "collections": ["product"],
     "maxPoolNum": 100
 });
-Mongodb.product.command(function(err, client, dbcb) {
-    client.product.find({}, {sort: [["_id", -1]]}).toArray(function(err,result) {
-        console.log(err, result.length);
-    });
+Mongodb.product.doCommand("product", "find",[{}], function(err, data) {
+    console.log(err, data.length);
 });
