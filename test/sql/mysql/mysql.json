@@ -1,0 +1,9 @@
+{
+  "type": "mysql",
+  "host": "192.168.1.5",
+  "user": "root",
+  "password": "0O0OO0O0",
+  "database": "factory",
+  "maxPoolNum": 100,
+  "idleTimeoutMillis": 3000
+}

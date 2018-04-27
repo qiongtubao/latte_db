@@ -1,17 +1,26 @@
 {
-	"name":"latte_db",
-    "version":"0.1.7",
+	"name": "latte_db",
+	"version": "0.0.1",
 	"description": "latte_db",
-	"keywords": ["latte","latte_db"],
+	"keywords": [
+		"latte",
+		"latte_db"
+	],
 	"author": "qiongtubao",
-	"main": "index.js",
+	"main": "lib/index.js",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/qiongtubao/latte_db.git"
 	},
 	"dependencies": {
-		"latte_lib":"*",
-		"mysql2": "*"
+		"latte_lib": "*",
+		"latte_class": "*",
+		"latte_verify": "*",
+		"mysql2": "*",
+		"sqlite3": "*"
+	},
+	"devDependencies": {
+		"chai": "*",
+		"@types/node": "*"
 	}
-	
 }
