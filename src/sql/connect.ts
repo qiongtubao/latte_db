@@ -15,6 +15,7 @@ export default class Connection {
   }
   add = (tableName: string, prototypes, callback: () => void) => {
     let sql = utils.insertSql(tableName, prototypes);
+    console.log(sql);
     this.sql(sql, callback);
   }
   del = (tableName, wheres, callback: () => void) => {
@@ -23,6 +24,11 @@ export default class Connection {
   }
   count = (tableName, wheres, options, callback: () => void) => {
     let sql = utils.countSql(tableName, wheres, options);
+    this.sql(sql, callback);
+  }
+  createTable = (tableName: string, verify: object, options: object, callback: () => void) => {
+    let sql = utils.createTable(tableName, verify, options);
+    console.log(sql);
     this.sql(sql, callback);
   }
   sql: Function;

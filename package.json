@@ -14,13 +14,14 @@
 	},
 	"dependencies": {
 		"latte_lib": "*",
-		"latte_class": "*",
 		"latte_verify": "*",
+		"mongodb": "*",
 		"mysql2": "*",
-		"sqlite3": "*"
+		"sqlite3": "*",
+		"redis": "*"
 	},
 	"devDependencies": {
-		"chai": "*",
-		"@types/node": "*"
+		"@types/node": "*",
+		"chai": "*"
 	}
 }

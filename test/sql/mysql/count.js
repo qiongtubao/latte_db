@@ -2,22 +2,8 @@ var latte_db = require("../../../lib").default;
 var latte_lib = require("latte_lib");
 
 let sql = latte_db.SQL.bindDB("test", require('./mysql.json'));
-var testClass = latte_db.SQL.createClass("sn", {
-  id: {
-    type: "integer",
-    key: 1
-  },
-  sn: {
-    type: "string",
-    unique: 1
-  },
-  children: {
-    type: "object"
-  },
-  entryTime: {
-    type: "date"
-  }
-});
+let sn = require('../object/sn');
+var testClass = latte_db.SQL.createClass("sn", sn);
 describe('mysql', function () {
   it("sn", function (done) {
     sql.getConnect(function (err, connect) {

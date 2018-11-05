@@ -31,7 +31,7 @@ export class Dao {
     });
   }
   getConnectPromise(...args) {
-    return latte_lib.promise.promisify(this.getConnect.bind(this))(...args);
+    return latte_lib['promise'].promisify(this.getConnect.bind(this))(...args);
   };
   info = () => {
     return {

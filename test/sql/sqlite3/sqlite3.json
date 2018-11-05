@@ -1,0 +1,4 @@
+{
+  "type": "sqlite3",
+  "database": "./test/sql/sqlite3/test.db"
+}

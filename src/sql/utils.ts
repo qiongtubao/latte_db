@@ -4,6 +4,8 @@ let valueToString = (value) => {
   if (latte_lib.isString(value)) {
     //当json转换成对象的时候会出现"   所以最外层设置为'
     return '\'' + value + '\'';
+  } else if (latte_lib.isDate(value)) {
+    return value.getTime();
   } else if (latte_lib.isObject(value)) {
     return "'" + JSON.stringify(value) + "'";
   } else if (latte_lib.object.isLatteObject(value)) {
@@ -200,4 +202,50 @@ export function countSql(tableName, wheres, options) {
   } else {
     return `select count(${prototypesStr}) from ${tableName}`;
   }
+}
+interface Info {
+  attribute?: string,
+  constraint?: string[]
+}
+let getInfo = (name: string, verifyConfig: any): Info => {
+  let result: Info = {
+    attribute: "",
+    constraint: []
+  };
+  switch (verifyConfig.type) {
+    case 'integer':
+      result.attribute = `${name} int`
+      break;
+    case 'string':
+      result.attribute = `${name} varchar(${verifyConfig.maxLength || 255})`
+      break;
+    case 'date':
+      result.attribute = `${name} datetime`;
+      break;
+  }
+  if (verifyConfig.key) {
+    result.constraint.push(`PRIMARY KEY (${name})`)
+  }
+  if (verifyConfig.notNull) {
+    result.attribute += ' NOT NULL';
+  }
+  if (verifyConfig.unique) {
+    result.constraint.push(`CONSTRAINT '${verifyConfig.unique.toString()}' UNIQUE (${name})`);
+  }
+  return result;
+}
+interface tableOptions {
+  engine?: string;
+  charset?: string;
+}
+export function createTable(tableName, verify, options: tableOptions) {
+  let array: string[] = [];
+  let constraint: string[] = [];
+  Object.keys(verify).forEach((key) => {
+    let result = getInfo(key, verify[key]);
+    result.attribute && array.push(result.attribute);
+    result.constraint.length && (constraint = constraint.concat(result.constraint));
+  })
+  let sql: string = `CREATE TABLE  If Not Exists ${tableName} (  ${array.join(',')} ${constraint.length == 0 ? '' : ',' + constraint.join(',')} );`
+  return sql;
 }

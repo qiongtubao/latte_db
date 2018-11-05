@@ -1,11 +1,13 @@
 import mysql from "./mysql/index"
+import sqlite3 from "./sqlite3/index"
 import templateClass from "./templateClass";
 export interface Config {
   type: string
 }
 
 let sqlTypes = {
-  mysql: mysql
+  mysql: mysql,
+  sqlite3: sqlite3
 }
 export function create(config: Config) {
   if (!sqlTypes[config.type]) {
