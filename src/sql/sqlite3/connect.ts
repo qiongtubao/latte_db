@@ -1,4 +1,4 @@
-import latte_lib from 'latte_lib'
+import * as  latte_lib from 'latte_lib'
 import Connect from '../connect'
 import * as utils from '../utils'
 export default class Sqlite3Connect extends Connect {

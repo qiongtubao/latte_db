@@ -1,4 +1,4 @@
-import latte_lib from 'latte_lib'
+import * as latte_lib from 'latte_lib'
 import Connect from '../connect'
 export default class MySqlConnect extends Connect {
   constructor(connect) {

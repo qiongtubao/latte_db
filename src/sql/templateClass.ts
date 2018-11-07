@@ -1,5 +1,5 @@
 import latte_verify from 'latte_verify'
-import latte_lib from 'latte_lib'
+import * as latte_lib from 'latte_lib'
 import { connect } from 'tls';
 interface Options {
   projection?: object;
@@ -38,7 +38,7 @@ export default (tableName: string, config) => {
       }
       this.data = latte_lib['object'].create(data || {});
       this.updateData = latte_lib['object'].create({});//可能存在对象里面还有对象需要转成json
-      this.oldData = latte_lib.copy(data) || {};
+      this.oldData = latte_lib.utils.copy(data) || {};
       var self = this;
       this.data.on("change", (key, value) => {
         self.updateData.set(key, value);
@@ -97,12 +97,12 @@ export default (tableName: string, config) => {
       return this.updateData.toJSON();
     }
     flush = () => {
-      this.oldData = latte_lib.copy(this.data.toJSON());
+      this.oldData = latte_lib.utils.copy(this.data.toJSON());
       this.updateData = latte_lib['object'].create({});
       return this;
     }
     clean = () => {
-      this.data = latte_lib['object'].create(latte_lib.copy(this.oldData));
+      this.data = latte_lib['object'].create(latte_lib.utils.copy(this.oldData));
       this.updateData = latte_lib['object'].create({});
       return this;
     }
@@ -115,7 +115,7 @@ export default (tableName: string, config) => {
       }
       return function (connect, callback) {
         options = options || {};
-        if (!latte_lib.isFunction(callback)) {
+        if (!latte_lib.utils.isFunction(callback)) {
           callback = function () { }
         }
         options.projection = options.projection || config;
@@ -139,7 +139,7 @@ export default (tableName: string, config) => {
       }
       return function (connect, callback) {
         options = options || {};
-        if (!latte_lib.isFunction(callback)) {
+        if (!latte_lib.utils.isFunction(callback)) {
           callback = function () { }
         }
         options.projection = options.projection || config;
@@ -155,7 +155,7 @@ export default (tableName: string, config) => {
         wheres = getWhere(wheres);
       }
       return (connect, callback) => {
-        if (!latte_lib.isFunction(callback)) {
+        if (!latte_lib.utils.isFunction(callback)) {
           callback = function () { };
         }
         connect.del(tableName, wheres, callback);
@@ -170,12 +170,12 @@ export default (tableName: string, config) => {
 
 
     static create = (data) => {
-      return new templateClass(latte_lib.copy(data));
+      return new templateClass(latte_lib.utils.copy(data));
     }
 
     static add = (g: templateClass) => {
       return (connect, callback) => {
-        if (!latte_lib.isFunction(callback)) {
+        if (!latte_lib.utils.isFunction(callback)) {
           callback = function () { }
         }
         connect.add(tableName, g.data.toJSON(), function (err, result0, result1) {
@@ -198,7 +198,7 @@ export default (tableName: string, config) => {
         wheres = getWhere(wheres);
       }
       return (connect, callback) => {
-        if (!latte_lib.isFunction(callback)) {
+        if (!latte_lib.utils.isFunction(callback)) {
           callback = function () { };
         }
         connect.count(tableName, wheres, {}, function (err, result0, result1) {
@@ -233,7 +233,7 @@ export default (tableName: string, config) => {
         wheres = getWhere(wheres);
       }
       return function (connect, callback) {
-        if (!latte_lib.isFunction(callback)) {
+        if (!latte_lib.utils.isFunction(callback)) {
           callback = function () { };
         }
         connect.update(tableName, update, wheres, function (err, result0, result1) {

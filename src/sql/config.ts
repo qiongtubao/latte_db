@@ -5,4 +5,5 @@ export interface SQLCOnfig extends Config {
   password: string;
   database: string;
   port?: number;
+  log: any;
 }

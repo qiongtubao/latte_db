@@ -25,9 +25,9 @@ export function createPool(config: SQLCOnfig) {
     destroy: function (client) {
       client.close();
     },
-    max: config.maxPoolNum || 1,
+    maxPoolNum: config.maxPoolNum || 1,
     idleTimeoutMills: config.idleTimeoutMills || 3000,
-    min: config.minPoolNum || 1,
+    minPoolNum: config.minPoolNum || 1,
   });
   process.on("exit", function () {
     p.destroyAllNow();

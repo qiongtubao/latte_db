@@ -1,7 +1,7 @@
 
 
-import { RemoveIdle, Queue } from 'latte_class'
-import latte_lib from 'latte_lib'
+import { RemoveIdle, Queue } from "latte_class"
+import * as latte_lib from 'latte_lib'
 export interface Config extends RemoveIdle.Config {
   database?: string;
   validate?: Function;
@@ -12,6 +12,7 @@ export interface Config extends RemoveIdle.Config {
   maxPoolNum?: number;
   idleTimeoutMills?: number;
   create: Function;
+  destroy: Function;
 }
 export class Pool extends RemoveIdle.RemoveIdle {
   count: number;

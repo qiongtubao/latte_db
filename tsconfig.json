@@ -5,10 +5,15 @@
             "module": "commonjs",
             "removeComments": true,
             "sourceMap": false,
-            "outDir": "lib"
+            "outDir": "lib",
+            "moduleResolution": "node",
+            "declaration": true,
+            "declarationDir": "tsd"
       },
       "include": [
             "src"
       ],
-      "exclude": []
+      "exclude": [
+            "node_modules",
+      ]
 }
