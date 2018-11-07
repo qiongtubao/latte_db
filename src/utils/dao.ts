@@ -1,6 +1,5 @@
 import { Pool, Config as PoolConfig } from "./pool"
-import { RemoveIdle } from 'latte_class'
-import latte_lib from 'latte_lib'
+import * as latte_lib from 'latte_lib'
 export class Dao {
   pool: Pool;
   config: PoolConfig;
@@ -18,7 +17,7 @@ export class Dao {
   }
 
   getConnect(callback?: (err, client) => void) {
-    if (!latte_lib.isFunction(callback)) {
+    if (!latte_lib.utils.isFunction(callback)) {
       return;
     }
     const self = this;

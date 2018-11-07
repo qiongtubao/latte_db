@@ -1,34 +1,43 @@
 
+import { Dao } from "../utils/dao"
 import { create as hashClass } from "./class/hash";
+import { createPool } from "./pool"
 // import stringClass from "./class/string"
-// import listClass from "./class/list"
+import listClass from "./class/list"
 // import setClass from "./class/set"
 // import sortedSetClass from "./class/sortedSet"
 export interface Config {
-  type: string
+  type: string,
+  key: string,
+  verify: any
 }
 
 let types = {
-  hash: hashClass
+  hash: hashClass,
+  list: listClass
 };
 
-export function create(config: Config) {
+export function createClass(config: Config) {
   if (!types[config.type]) {
     console.error("no find ", config.type, "type");
     return null;
   }
-  return types[config.type].create(config);
+  return types[config.type].create(config.key, config.verify);
 }
 let redis = {
 
 }
 export function bindDB(name, config: Config) {
-  let result = create(config);
+  let result = createDB(config);
   if (!result) {
     return result;
   }
   redis[name] = result;
   return result;
+}
+export function createDB(config: any) {
+  let db = new Dao(createPool, config);
+  return db;
 }
 export function getDB(name) {
   return redis[name];

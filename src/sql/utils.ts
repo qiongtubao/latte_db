@@ -1,12 +1,12 @@
-import latte_lib from 'latte_lib'
+import * as latte_lib from 'latte_lib'
 
 let valueToString = (value) => {
-  if (latte_lib.isString(value)) {
+  if (latte_lib.utils.isString(value)) {
     //当json转换成对象的时候会出现"   所以最外层设置为'
     return '\'' + value + '\'';
-  } else if (latte_lib.isDate(value)) {
+  } else if (latte_lib.utils.isDate(value)) {
     return value.getTime();
-  } else if (latte_lib.isObject(value)) {
+  } else if (latte_lib.utils.isObject(value)) {
     return "'" + JSON.stringify(value) + "'";
   } else if (latte_lib.object.isLatteObject(value)) {
     return "'" + JSON.stringify(value) + "'";
@@ -112,7 +112,7 @@ export function whereSql(wheres) {
     return "";
   }
   let whereStr = "where ";
-  if (latte_lib.isObject(wheres)) {
+  if (latte_lib.utils.isObject(wheres)) {
     if (wheres.$or) {
       whereStr += wheres.$or.map((v) => {
         return j2s(v);
@@ -120,7 +120,7 @@ export function whereSql(wheres) {
     } else {
       whereStr += j2s(wheres);
     }
-  } else if (latte_lib.isArray(wheres)) {
+  } else if (latte_lib.utils.isArray(wheres)) {
     whereStr += wheres.map((v) => {
       return j2s(v);
     }).join(" and ");

@@ -18,6 +18,7 @@
 		"mongodb": "*",
 		"mysql2": "*",
 		"sqlite3": "*",
+		"hiredis": "*",
 		"redis": "*"
 	},
 	"devDependencies": {
