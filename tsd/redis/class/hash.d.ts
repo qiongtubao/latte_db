@@ -1,10 +1,11 @@
+import * as latte_lib from "latte_lib";
 import Connect from "../connect";
 export declare function create(config: any): {
     new (key: string, data: any): {
         key: string;
-        data: any;
-        updateData: any;
-        oldData: any;
+        data: latte_lib.object;
+        updateData: latte_lib.object;
+        oldData: latte_lib.object;
         get(key: any): any;
         set(key: any, value: any): void;
         getUpdates(): any;
@@ -14,9 +15,9 @@ export declare function create(config: any): {
     };
     crate(key: any, value: any): {
         key: string;
-        data: any;
-        updateData: any;
-        oldData: any;
+        data: latte_lib.object;
+        updateData: latte_lib.object;
+        oldData: latte_lib.object;
         get(key: any): any;
         set(key: any, value: any): void;
         getUpdates(): any;
@@ -26,9 +27,9 @@ export declare function create(config: any): {
     };
     add(t: {
         key: string;
-        data: any;
-        updateData: any;
-        oldData: any;
+        data: latte_lib.object;
+        updateData: latte_lib.object;
+        oldData: latte_lib.object;
         get(key: any): any;
         set(key: any, value: any): void;
         getUpdates(): any;
@@ -38,9 +39,9 @@ export declare function create(config: any): {
     }): (connect: any, callback?: (err: any, result?: any) => void) => void;
     del(t: {
         key: string;
-        data: any;
-        updateData: any;
-        oldData: any;
+        data: latte_lib.object;
+        updateData: latte_lib.object;
+        oldData: latte_lib.object;
         get(key: any): any;
         set(key: any, value: any): void;
         getUpdates(): any;
@@ -50,9 +51,9 @@ export declare function create(config: any): {
     }): (connect: any, callback?: (err: any, result?: any) => void) => void;
     update(t: {
         key: string;
-        data: any;
-        updateData: any;
-        oldData: any;
+        data: latte_lib.object;
+        updateData: latte_lib.object;
+        oldData: latte_lib.object;
         get(key: any): any;
         set(key: any, value: any): void;
         getUpdates(): any;

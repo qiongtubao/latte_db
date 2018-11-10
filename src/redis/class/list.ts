@@ -1,5 +1,5 @@
 import * as latte_lib from "latte_lib"
-import * as latte_verify from "latte_verify"
+import latte_verify from "latte_verify"
 import { connect } from "net";
 
 export function toValue(v: any) {
@@ -11,7 +11,7 @@ export function toValue(v: any) {
         return v;
     }
 }
-export default function create(key: any, config: any) {
+export function create(key: any, config: any) {
     return class List {
         data: any;
         _data: any;
@@ -23,7 +23,7 @@ export default function create(key: any, config: any) {
                 return null;
             }
             this.data = value;
-            this._data = latte_lib.clone(value);
+            this._data = latte_lib.utils.copy(value);
         }
         set(value) {
             try {
@@ -38,7 +38,7 @@ export default function create(key: any, config: any) {
             return this.data;
         }
         flush() {
-            this._data = latte_lib.utils.clone(this.data);
+            this._data = latte_lib.utils.copy(this.data);
         }
         toJSON() {
             return this.data.toJSON();
