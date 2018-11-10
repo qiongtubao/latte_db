@@ -1,5 +1,5 @@
 export declare function toValue(v: any): any;
-export default function create(key: any, config: any): {
+export declare function create(key: any, config: any): {
     new (value: any): {
         data: any;
         _data: any;
