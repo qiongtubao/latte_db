@@ -1,5 +1,6 @@
+import { Client } from "redis";
 export default class Connect {
-    connect: any;
+    connect: Client;
     constructor(connect: any);
     get(key: string, callback: Function): this;
     getPromise(key: string): any;

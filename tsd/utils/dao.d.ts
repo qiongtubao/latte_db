@@ -11,8 +11,8 @@ export declare class Dao {
     info: () => {
         name: string;
         poolSize: number;
-        availableObjectsCount: number;
-        waitingClientsCount: number;
+        availableObjectsCount: any;
+        waitingClientsCount: any;
     };
     getDb: () => string;
 }

@@ -1,13 +1,15 @@
 import mysql from "./mysql/index"
 import sqlite3 from "./sqlite3/index"
 import templateClass from "./templateClass";
+import postgresql from "./postgresql/index";
 export interface Config {
   type: string
 }
 
-let sqlTypes = {
+export let sqlTypes = {
   mysql: mysql,
-  sqlite3: sqlite3
+  sqlite3: sqlite3,
+  postgresql: postgresql
 }
 export function create(config: Config) {
   if (!sqlTypes[config.type]) {
@@ -30,5 +32,5 @@ export function bindDB(name, config: Config) {
 export function getDB(name) {
   return sqls[name];
 }
-export let createClass = templateClass;
 
+export let createClass = templateClass;

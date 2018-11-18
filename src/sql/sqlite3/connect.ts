@@ -1,7 +1,8 @@
 import * as  latte_lib from 'latte_lib'
-import Connect from '../connect'
+import SqlConnectProxy from '../connect'
 import * as utils from '../utils'
-export default class Sqlite3Connect extends Connect {
+import { Connect as Sqlite3Connect } from "sqlite3"
+export default class Sqlite3ConnectProxy extends SqlConnectProxy<Sqlite3Connect> {
   constructor(connect) {
     super(connect);
   }

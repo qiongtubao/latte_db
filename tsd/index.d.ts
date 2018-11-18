@@ -1,5 +1,3 @@
-import * as SQL from './sql/index';
-declare const _default: {
-    SQL: typeof SQL;
-};
-export default _default;
+import * as sql from './sql/index';
+import * as redis from "./redis/index";
+export { sql, redis };

@@ -1,6 +1,7 @@
 import * as latte_lib from "latte_lib"
+import { Client } from "redis"
 export default class Connect {
-  connect: any;
+  connect: Client;
   constructor(connect) {
     this.connect = connect;
   }

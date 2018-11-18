@@ -1,5 +1,6 @@
-import Connect from '../connect';
-export default class MySqlConnect extends Connect {
+import SqlConnectProxy from '../connect';
+import { Connect as MySqlConnect } from "mysql2";
+export default class MySqlConnectProxy extends SqlConnectProxy<MySqlConnect> {
     constructor(connect: any);
     sql: (...args: any[]) => any;
     begin: (callback: any) => any;
