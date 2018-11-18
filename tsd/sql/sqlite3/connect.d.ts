@@ -1,5 +1,6 @@
-import Connect from '../connect';
-export default class Sqlite3Connect extends Connect {
+import SqlConnectProxy from '../connect';
+import { Connect as Sqlite3Connect } from "sqlite3";
+export default class Sqlite3ConnectProxy extends SqlConnectProxy<Sqlite3Connect> {
     constructor(connect: any);
     sql: (...args: any[]) => any;
     begin: (callback: any) => void;

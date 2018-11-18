@@ -13,13 +13,14 @@
 		"url": "https://github.com/qiongtubao/latte_db.git"
 	},
 	"dependencies": {
+		"hiredis": "*",
 		"latte_lib": "*",
 		"latte_verify": "*",
 		"mongodb": "*",
 		"mysql2": "*",
-		"sqlite3": "*",
-		"hiredis": "*",
-		"redis": "*"
+		"pg": "^7.6.1",
+		"redis": "*",
+		"sqlite3": "*"
 	},
 	"devDependencies": {
 		"@types/node": "*",

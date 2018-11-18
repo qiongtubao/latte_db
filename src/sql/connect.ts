@@ -1,11 +1,14 @@
 import * as latte_lib from 'latte_lib';
 import * as utils from './utils'
-export default class Connection {
-  connect: any;
-  constructor(connect) {
+export default class SqlConnectProxy<T> {
+  connect: T;
+  constructor(connect: T) {
     this.connect = connect;
   }
-  query = (tableName: string, wheres: object, options: object, callback: () => void) => {
+  queryResultArray(data: any) {
+    return data;
+  }
+  query(tableName: string, wheres: object, options: object, callback: () => void) {
     let sql = utils.querySql(tableName, wheres, options);
     this.sql(sql, callback);
   }
@@ -15,7 +18,6 @@ export default class Connection {
   }
   add = (tableName: string, prototypes, callback: () => void) => {
     let sql = utils.insertSql(tableName, prototypes);
-    console.log(sql);
     this.sql(sql, callback);
   }
   del = (tableName, wheres, callback: () => void) => {
@@ -28,7 +30,6 @@ export default class Connection {
   }
   createTable = (tableName: string, verify: object, options: object, callback: () => void) => {
     let sql = utils.createTable(tableName, verify, options);
-    console.log(sql);
     this.sql(sql, callback);
   }
   sql: Function;

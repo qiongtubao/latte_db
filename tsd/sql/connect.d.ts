@@ -1,7 +1,8 @@
-export default class Connection {
-    connect: any;
-    constructor(connect: any);
-    query: (tableName: string, wheres: object, options: object, callback: () => void) => void;
+export default class SqlConnectProxy<T> {
+    connect: T;
+    constructor(connect: T);
+    queryResultArray(data: any): any;
+    query(tableName: string, wheres: object, options: object, callback: () => void): void;
     update: (tableName: string, sets: any, wheres: any, callback: () => void) => void;
     add: (tableName: string, prototypes: any, callback: () => void) => void;
     del: (tableName: any, wheres: any, callback: () => void) => void;

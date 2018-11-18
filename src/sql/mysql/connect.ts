@@ -1,6 +1,7 @@
 import * as latte_lib from 'latte_lib'
-import Connect from '../connect'
-export default class MySqlConnect extends Connect {
+import SqlConnectProxy from '../connect'
+import { Connect as MySqlConnect } from "mysql2"
+export default class MySqlConnectProxy extends SqlConnectProxy<MySqlConnect> {
   constructor(connect) {
     super(connect);
   }

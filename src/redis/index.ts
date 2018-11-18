@@ -4,7 +4,7 @@ import * as hashClass from "./class/hash";
 import { createPool } from "./pool"
 // import stringClass from "./class/string"
 import * as listClass from "./class/list"
-// import setClass from "./class/set"
+import * as setClass from "./class/set"
 // import sortedSetClass from "./class/sortedSet"
 export interface Config {
   type: string,
@@ -12,9 +12,10 @@ export interface Config {
   verify: any
 }
 
-let types = {
-  hash: hashClass,
-  list: listClass
+export let types = {
+  Hash: hashClass,
+  List: listClass,
+  Set: setClass
 };
 
 export function createClass(config: Config) {
