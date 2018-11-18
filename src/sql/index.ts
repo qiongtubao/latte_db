@@ -33,4 +33,7 @@ export function getDB(name) {
   return sqls[name];
 }
 
-export let createClass = templateClass;
+let createClass: any = templateClass
+export {
+  createClass
+};
