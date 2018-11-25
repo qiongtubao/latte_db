@@ -1,195 +1,151 @@
-import * as latte_lib from "latte_lib"
-import latte_verify from "latte_verify"
-import { connect } from "net";
+import { BaseObject, BaseClass } from "../baseClass";
+import { VerifyClass } from "latte_verify"
 
-export function toValue(v: any) {
-    if (latte_lib.utils.isObject(v)) {
-        return JSON.stringify(v);
-    } else if (latte_lib.object.isLatteObject(v)) {
-        return JSON.stringify(v);
-    } else {
-        return v;
+
+
+export class List implements BaseClass<BaseObject> {
+    key: string;
+    verifyObject: VerifyClass;
+    push(g) {
+        return (connect, callback) => {
+            connect.rpush(this.key, g.toString(), function (err, data) {
+                if (err) {
+                    return callback(err);
+                }
+                return callback(null, g);
+            });
+        }
     }
-}
-export function create(key: any, config: any) {
-    return class List {
-        data: any;
-        _data: any;
-        constructor(value) {
-            try {
-                value = latte_verify.verify(value, config);
-            } catch (err) {
-                console.log("list object verify Error", err);
-                return null;
-            }
-            this.data = value;
-            this._data = latte_lib.utils.copy(value);
+    size() {
+        return (connect, callback) => {
+            connect.llen(this.key, callback);
         }
-        set(value) {
-            try {
-                value = latte_verify.verify(value, config);
-            } catch (err) {
-                console.log("list object verify Error", err);
-                return null;
-            }
-            this.data = value;
+    }
+    unshift(list: BaseObject) {
+        return (connect, callback) => {
+            connect.lpush(this.key, list.toString(), (err, data) => {
+                if (err) {
+                    return callback(err);
+                }
+                if (data == 0) {
+                    // latte_lib.debug.info("redis list push ", key, "return 0");
+                }
+                return callback(null, list);
+            });
         }
-        get() {
-            return this.data;
+    }
+    shift() {
+        return (connect, callback) => {
+            connect.lpop(this.key, (err, data) => {
+                if (err) {
+                    return callback(err);
+                }
+                let listObject = this.create(this.verifyObject)
+                return callback(null, listObject)
+            });
         }
-        flush() {
-            this._data = latte_lib.utils.copy(this.data);
+    }
+    pop() {
+        return (connect, callback) => {
+            connect.rpop(this.key, (err, data) => {
+                if (err) {
+                    return callback(err);
+                }
+
+                return callback(null, this.create(data))
+            });
         }
-        toJSON() {
-            return this.data.toJSON();
+    }
+    waitShift() {
+        return (connect, callback) => {
+            connect.blpop([this.key], 0, (err, data) => {
+                if (err) {
+                    return callback(err);
+                }
+                var g = this.create(data)
+                callback(null, g);
+            })
         }
-        static push(list: List) {
-            return (connect, callback) => {
-                connect.rpush(key, toValue(list.data), (err, result) => {
-                    if (err) {
-                        return callback(err);
-                    }
-                    if (result == 0) {
-                        // latte_lib.debug.info("redis list push ", key, "return 0");
-                    }
-                    return callback(null, list);
-                })
-            }
+    }
+    waitPop() {
+        return (connect, callback) => {
+            connect.brpop([this.key], 0, (err, data) => {
+                if (err) {
+                    return callback(err);
+                }
+                var g = this.create(data);
+                callback(null, g);
+            });
         }
-        static size() {
-            return (connect, callback) => {
-                connect.llen(key, callback);
-            }
+    }
+    getAll(min: number = 0, max: number = -1) {
+        return (connect, callback) => {
+            connect.lrange(this.key, min, max, (err, data) => {
+                if (err) {
+                    return callback(err);
+                }
+                callback(null, data.map((o) => {
+                    return this.create(o);
+                }));
+            })
         }
-        static unshift(list: List) {
-            return (connect, callback) => {
-                connect.lpush(key, toValue(list.data), (err, data) => {
-                    if (err) {
-                        return callback(err);
-                    }
-                    if (data == 0) {
-                        // latte_lib.debug.info("redis list push ", key, "return 0");
-                    }
-                    return callback(null, list);
-                });
-            }
+    }
+    create(value) {
+
+        let base = new BaseObject(this.verifyObject);
+        if (!base.set(value)) {
+            return null;
+        } else {
+            return base;
         }
-        static shift() {
-            return (connect, callback) => {
-                connect.lpop(key, (err, data) => {
-                    if (err) {
-                        return callback(err);
-                    }
-                    if (data) {
-                        var g = new List(data);
-                        return callback(null, g);
-                    } else {
-                        return callback();
-                    }
-                });
-            }
+    }
+    get(index) {
+        return (connect, callback) => {
+            connect.lindex(this.key, index, (err, data) => {
+                if (err) {
+                    return callback(err);
+                }
+                callback(null, this.create(data));
+            });
         }
-        static pop() {
-            return (connect, callback) => {
-                connect.rpop(key, (err, data) => {
-                    if (err) {
-                        return callback(err);
-                    }
-                    if (data) {
-                        var g = new List(data);
-                        return callback(null, g);
-                    } else {
-                        return callback();
-                    }
-                });
-            }
+    }
+    set(index, list: BaseObject) {
+        return (connect, callback) => {
+            connect.lset(this.key, index, list.toString(), function (err, data) {
+                if (err) {
+                    return callback(err);
+                }
+                if (data == 0) {
+                    // latte_lib.debug.info("redis list set ", key, index, "return 0");
+                }
+                callback(null, list);
+            });
         }
-        static waitShift() {
-            return (connect, callback) => {
-                connect.blpop([key], 0, (err, data) => {
-                    if (err) {
-                        return callback(err);
-                    }
-                    var g = new List(data[1]);
-                    callback(null, g);
-                })
-            }
+    }
+    del(list, index: number = 1) {
+        return (connect, callback) => {
+            connect.lrem(this.key, 1, list.toString(), function (err, data) {
+                if (err) {
+                    return callback(err);
+                }
+                if (data == 0) {
+                    // latte_lib.debug.info("redis list del ", key, index, "return 0");
+                }
+                callback(null, data);
+            });
         }
-        static waitPop() {
-            return (connect, callback) => {
-                connect.brpop([key], 0, function (err, data) {
-                    if (err) {
-                        return callback(err);
-                    }
-                    var g = new List(data[1]);
-                    callback(null, g);
-                });
-            }
-        }
-        static getAll(min: number = 0, max: number = -1) {
-            return (connect, callback) => {
-                connect.lrange(key, min, max, function (err, data) {
-                    if (err) {
-                        return callback(err);
-                    }
-                    callback(null, data.map(function (o) {
-                        return new List(o);
-                    }));
-                })
-            }
-        }
-        static create(value) {
-            return new List(value);
-        }
-        static get(index) {
-            return (connect, callback) => {
-                connect.lindex(key, index, function (err, data) {
-                    if (err) {
-                        return callback(err);
-                    }
-                    var g = new List(data);
-                    callback(null, g);
-                });
-            }
-        }
-        static set(index, list) {
-            return (connect, callback) => {
-                connect.lset(key, index, toValue(list.data), function (err, data) {
-                    if (err) {
-                        return callback(err);
-                    }
-                    if (data == 0) {
-                        // latte_lib.debug.info("redis list set ", key, index, "return 0");
-                    }
-                    callback(null, list);
-                });
-            }
-        }
-        static del(list, index: number = 1) {
-            return (connect, callback) => {
-                connect.lrem(key, 1, toValue(list.data), function (err, data) {
-                    if (err) {
-                        return callback(err);
-                    }
-                    if (data == 0) {
-                        // latte_lib.debug.info("redis list del ", key, index, "return 0");
-                    }
-                    callback(null, data);
-                });
-            }
-        }
-        static delAll() {
-            return (connect, callback) => {
-                connect.del(key, function (err, data) {
-                    if (err) {
-                        return callback(err);
-                    }
-                    if (data == 0) {
-                        // latte_lib.debug.info("redis list delAll ", key, index, "return 0");
-                    }
-                    callback(null, data);
-                });
-            }
+    }
+    delAll() {
+        return (connect, callback) => {
+            connect.del(this.key, function (err, data) {
+                if (err) {
+                    return callback(err);
+                }
+                if (data == 0) {
+                    // latte_lib.debug.info("redis list delAll ", key, index, "return 0");
+                }
+                callback(null, data);
+            });
         }
     }
 }
