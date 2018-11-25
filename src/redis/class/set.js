@@ -1,7 +1,7 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var latte_lib = require("latte_lib");
-var BaseObject = (function () {
+var BaseObject = /** @class */ (function () {
     function BaseObject(verifyObject) {
         this.verifyObject = verifyObject;
     }
@@ -34,7 +34,7 @@ var BaseObject = (function () {
     };
     return BaseObject;
 }());
-var Set = (function () {
+var Set = /** @class */ (function () {
     function Set() {
     }
     Set.prototype.getAll = function () {

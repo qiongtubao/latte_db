@@ -1,19 +1,14 @@
-import { VerifyClass } from "latte_verify";
 import Connect from "../connect";
-import { BaseClass } from "../baseClass";
-declare class BaseObject {
+declare class TemplateClass {
     data: any;
-    private _data;
-    verifyObject: VerifyClass;
-    constructor(verifyObject: VerifyClass);
-    set(data: any): boolean;
-    flush(): void;
+    constructor(data: any);
     toKey(): any;
     toJSON(): any;
 }
-export declare class Set implements BaseClass<BaseObject> {
-    key: string;
-    verifyObject: VerifyClass;
+export declare class Set {
+    private verifyObejct;
+    private key;
+    constructor(key: any, config: any);
     getAll(): (connect: Connect, callback: any) => void;
     size(): (connect: any, callback: any) => void;
     union(setName: any): (connect: Connect, callback: any) => void;
@@ -28,6 +23,7 @@ export declare class Set implements BaseClass<BaseObject> {
     has(g: any): (connect: Connect, callback: any) => void;
     del(g: any): (connect: Connect, callback: any) => void;
     add(g: any): (connect: Connect, callback: any) => void;
-    create(data: any): BaseObject;
+    create(data: any): TemplateClass;
 }
+export declare function create(key: any, config: any): Set;
 export {};

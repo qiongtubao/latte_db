@@ -1,26 +1,10 @@
 import * as latte_lib from "latte_lib"
 import { VerifyClass, createVerifyClass } from "latte_verify"
 import Connect from "../connect";
-import { StringifyOptions } from "querystring";
-import { BaseClass } from "../baseClass";
-class BaseObject {
+class TemplateClass {
     data: any;
-    private _data: any;
-    verifyObject: VerifyClass;
-    constructor(verifyObject: VerifyClass) {
-        this.verifyObject = verifyObject;
-    }
-    set(data) {
-        try {
-            data = this.verifyObject.verify(data)
-        } catch (err) {
-            return false;
-        }
+    constructor(data) {
         this.data = data;
-        return true;
-    }
-    flush() {
-        this.data = this._data;
     }
     toKey() {
         if (latte_lib.utils.isObject(this.data)) {
@@ -35,9 +19,13 @@ class BaseObject {
         return this.data.toJSON()
     }
 }
-export class Set implements BaseClass<BaseObject>{
-    key: string;
-    verifyObject: VerifyClass;
+export class Set {
+    private verifyObejct: VerifyClass;
+    private key: string;
+    constructor(key, config) {
+        this.key = key;
+        this.verifyObejct = createVerifyClass(config);
+    }
     getAll() {
         return (connect: Connect, callback) => {
             connect.smembers(this.key, (err, data) => {
@@ -190,13 +178,16 @@ export class Set implements BaseClass<BaseObject>{
             })
         }
     }
-    create(data): BaseObject {
-
-        let baseObject = new BaseObject(this.verifyObject);
-        if (!baseObject.set(data)) {
-            return null;
+    create(data) {
+        try {
+            data = this.verifyObejct.verify(data)
+        } catch (err) {
+            console.error(err)
+            return null
         }
-        return baseObject;
-
+        return new TemplateClass(data);
     }
+}
+export function create(key, config) {
+    return new Set(key, config);
 }
