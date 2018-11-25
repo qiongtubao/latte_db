@@ -1,16 +1,6 @@
 import { VerifyClass } from "latte_verify";
 import Connect from "../connect";
-import { BaseClass } from "../baseClass";
-declare class BaseObject {
-    data: any;
-    private _data;
-    verifyObject: VerifyClass;
-    constructor(verifyObject: VerifyClass);
-    set(data: any): boolean;
-    flush(): void;
-    toKey(): any;
-    toJSON(): any;
-}
+import { BaseClass, BaseObject } from "../baseClass";
 export declare class Set implements BaseClass<BaseObject> {
     key: string;
     verifyObject: VerifyClass;
@@ -30,4 +20,3 @@ export declare class Set implements BaseClass<BaseObject> {
     add(g: any): (connect: Connect, callback: any) => void;
     create(data: any): BaseObject;
 }
-export {};

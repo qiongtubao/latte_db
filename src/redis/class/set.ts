@@ -2,39 +2,8 @@ import * as latte_lib from "latte_lib"
 import { VerifyClass, createVerifyClass } from "latte_verify"
 import Connect from "../connect";
 import { StringifyOptions } from "querystring";
-import { BaseClass } from "../baseClass";
-class BaseObject {
-    data: any;
-    private _data: any;
-    verifyObject: VerifyClass;
-    constructor(verifyObject: VerifyClass) {
-        this.verifyObject = verifyObject;
-    }
-    set(data) {
-        try {
-            data = this.verifyObject.verify(data)
-        } catch (err) {
-            return false;
-        }
-        this.data = data;
-        return true;
-    }
-    flush() {
-        this.data = this._data;
-    }
-    toKey() {
-        if (latte_lib.utils.isObject(this.data)) {
-            return JSON.stringify(this.data);
-        } else if (latte_lib.object.isLatteObject(this.data)) {
-            return JSON.stringify(this.data);
-        } else {
-            return this.data;
-        }
-    }
-    toJSON() {
-        return this.data.toJSON()
-    }
-}
+import { BaseClass, BaseObject } from "../baseClass";
+
 export class Set implements BaseClass<BaseObject>{
     key: string;
     verifyObject: VerifyClass;
